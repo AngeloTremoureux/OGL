@@ -62,27 +62,26 @@ int main(void)
 
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
-		// Ligne 1
-		-1.0f, -1.0f, 0.0f, // point 1
-		-1.0f, 1.0f, 0.0f,	// point 2
-		// Ligne 2
-		1.0f, 1.0f, 0.0f,  // point 1
-		1.0f, -1.0f, 0.0f, // point 2
-		// Ligne 3
-		-1.0f, -1.0f, 0.0f, // point 1
-		1.0f, -1.0f, 0.0f,	// point 2
-		// Ligne 4
-		-1.0f, 1.0f, 0.0f, // point 1
-		1.0f, 1.0f, 0.0f,  // point 2
-		// Ligne 5
-		-1.0f, -1.0f, 0.0f, // point 1
-		1.0f, 1.0f, 0.0f,	// point 2
-		// Ligne 6
-		-1.0f, 1.0f, 0.0f, // point 1
-		0.0f, 1.5f, 0.0f,  // point 2
-		// Ligne 7
-		1.0f, 1.0f, 0.0f,  // point 1
-		0.0f, 1.5f, 0.0f}; // point 2
+		-1.0f, -1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+
+		-1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+
+		1.0f, 1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
+
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+
+		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.5f, 0.0f,
+
+		0.0f, 1.5f, 0.0f,
+		-1.0f, 1.0f, 0.0f};
 
 	// One color for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
@@ -142,7 +141,7 @@ int main(void)
 		);
 
 		// Draw the triangles
-		glDrawArrays(GL_LINES, 0, 14);
+		glDrawArrays(GL_LINE_STRIP, 0, 14);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDisableVertexAttribArray(0);
 
