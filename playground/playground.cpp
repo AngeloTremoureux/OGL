@@ -24,7 +24,6 @@ int main(void)
 	}
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
@@ -63,51 +62,33 @@ int main(void)
 
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-
-		1.0f, 1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f,
-
-		-1.0f, 1.0f, 0.0f,
-		0.0f, 1.5f, 0.0f,
-		1.0f, 1.0f, 0.0f};
+		// Triangle 1
+		-1.0f, -1.0f, 0.0f, // point 1
+		-1.0f, 1.0f, 0.0f,	// point 2
+		1.0f, 1.0f, 0.0f,	// point 3
+		// Triangle 2
+		1.0f, 1.0f, 0.0f,	// point 1
+		1.0f, -1.0f, 0.0f,	// point 2
+		-1.0f, -1.0f, 0.0f, // point 3
+		// Triangle 3
+		-1.0f, 1.0f, 0.0f, // point 1
+		0.0f, 1.5f, 0.0f,  // point 2
+		1.0f, 1.0f, 0.0f}; // point 3
 
 	// One color for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
-		0.0f,
-		1.0,
-		0.0f,
-		0.0f,
-		0.0f,
-		1.0,
-		1.0,
-		0.0f,
-		0.0f,
-
-		1.0,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		1.0,
-		0.0f,
-		1.0,
-		0.0f,
-
-		0.0f,
-		0.0f,
-		1.0,
-		0.0f,
-		1.0,
-		0.0f,
-		1.0,
-		0.0f,
-		0.0f,
-
-	};
+		// Couleur Triangle 1
+		0.0f, 1.0f, 0.0f, // r g b
+		0.0f, 1.0f, 0.0f, // r g b
+		0.0f, 1.0f, 0.0f, // r g b
+		// Couleur Triangle 2
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		// Couleur Triangle 3
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f};
 
 	GLuint vertexbuffer;
 	GLuint colorbuffer;
