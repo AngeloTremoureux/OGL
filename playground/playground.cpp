@@ -80,14 +80,14 @@ int main(void)
 	GLuint vertexbuffer;
 	do
 	{
-		// Draw nothing, see you in step 1 !
+		// Clear the screen
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		glGenBuffers(1, &vertexbuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
 					 g_vertex_buffer_data, GL_STATIC_DRAW);
-		// Clear the screen
-		glClear(GL_COLOR_BUFFER_BIT);
+
 		// Use our shader
 		glUseProgram(programID);
 		// 1rst attribute buffer : vertices
