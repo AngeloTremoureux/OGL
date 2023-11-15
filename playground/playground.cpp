@@ -52,24 +52,33 @@ int main(void)
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	GLuint VertexArrayID;
+
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("playground_steps/step3/SimpleVertexShader.vertexshader", "playground_steps/step3/SimpleFragmentShader.fragmentshader");
+	GLuint programID = LoadShaders("playground_steps/step4/SimpleVertexShader.vertexshader", "playground_steps/step4/SimpleFragmentShader.fragmentshader");
 
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f, -1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.5f, 0.0f,
-		-1.0f, 1.0f, 0.0f};
+		// Triangle 1
+		-1.0f, -1.0f, 0.0f, // point 1
+		-1.0f, 1.0f, 0.0f,	// point 2
+		1.0f, 1.0f, 0.0f,	// point 3
+		// Triangle 2
+		1.0f, 1.0f, 0.0f,	// point 1
+		1.0f, -1.0f, 0.0f,	// point 2
+		-1.0f, -1.0f, 0.0f, // point 3
+		// Triangle 3
+		-1.0f, 1.0f, 0.0f, // point 1
+		0.0f, 1.5f, 0.0f,  // point 2
+		1.0f, 1.0f, 0.0f,  // point 3
+		// Triangle 4
+		-1.0f, -1.0f, 0.2f, // point 1
+		0.0f, 1.0f, 0.2f,	// point 2
+		1.0f, -1.0f, 0.2f}; // point 3
 
 	// One color for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
@@ -84,7 +93,11 @@ int main(void)
 		// Couleur Triangle 3
 		0.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f};
+		0.0f, 0.0f, 1.0f,
+		// Couleur Triangle 4
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f};
 
 	GLuint vertexbuffer;
 	GLuint colorbuffer;
@@ -128,9 +141,24 @@ int main(void)
 			(void *)0 // array buffer offset
 		);
 
+		GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+		glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+
+		glm::mat4 View = glm::lookAt(
+			glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+			glm::vec3(0, 0, 0), // and looks at the origin
+			glm::vec3(0, 1, 0)	// Head is up (set to 0,-1,0 to look upside-down)
+		);
+		glm::mat4 Model = glm::mat4(1.0f);
+		glm::mat4 MVP = Projection * View * Model;
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		// Draw the triangles
-		glDrawArrays(GL_LINE_STRIP, 0, 8);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawArrays(GL_TRIANGLES, 0, 12);
+
 		glDisableVertexAttribArray(0);
 
 		// Swap buffers
