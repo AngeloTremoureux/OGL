@@ -64,22 +64,10 @@ int main(void)
 	static const GLfloat g_vertex_buffer_data[] = {
 		-1.0f, -1.0f, 0.0f,
 		-1.0f, 1.0f, 0.0f,
-
-		-1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-
 		1.0f, 1.0f, 0.0f,
 		-1.0f, -1.0f, 0.0f,
-
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-
 		1.0f, -1.0f, 0.0f,
 		1.0f, 1.0f, 0.0f,
-
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.5f, 0.0f,
-
 		0.0f, 1.5f, 0.0f,
 		-1.0f, 1.0f, 0.0f};
 
@@ -141,7 +129,7 @@ int main(void)
 		);
 
 		// Draw the triangles
-		glDrawArrays(GL_LINE_STRIP, 0, 14);
+		glDrawArrays(GL_LINE_STRIP, 0, 8);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDisableVertexAttribArray(0);
 
