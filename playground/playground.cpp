@@ -52,28 +52,37 @@ int main(void)
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("playground_steps/step2/SimpleVertexShader.vertexshader", "playground_steps/step2/SimpleFragmentShader.fragmentshader");
+	GLuint programID = LoadShaders("playground_steps/step3/SimpleVertexShader.vertexshader", "playground_steps/step3/SimpleFragmentShader.fragmentshader");
 
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
-		// Triangle 1
+		// Ligne 1
 		-1.0f, -1.0f, 0.0f, // point 1
 		-1.0f, 1.0f, 0.0f,	// point 2
-		1.0f, 1.0f, 0.0f,	// point 3
-		// Triangle 2
-		1.0f, 1.0f, 0.0f,	// point 1
+		// Ligne 2
+		1.0f, 1.0f, 0.0f,  // point 1
+		1.0f, -1.0f, 0.0f, // point 2
+		// Ligne 3
+		-1.0f, -1.0f, 0.0f, // point 1
 		1.0f, -1.0f, 0.0f,	// point 2
-		-1.0f, -1.0f, 0.0f, // point 3
-		// Triangle 3
+		// Ligne 4
+		-1.0f, 1.0f, 0.0f, // point 1
+		1.0f, 1.0f, 0.0f,  // point 2
+		// Ligne 5
+		-1.0f, -1.0f, 0.0f, // point 1
+		1.0f, 1.0f, 0.0f,	// point 2
+		// Ligne 6
 		-1.0f, 1.0f, 0.0f, // point 1
 		0.0f, 1.5f, 0.0f,  // point 2
-		1.0f, 1.0f, 0.0f}; // point 3
+		// Ligne 7
+		1.0f, 1.0f, 0.0f,  // point 1
+		0.0f, 1.5f, 0.0f}; // point 2
 
 	// One color for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
@@ -133,8 +142,8 @@ int main(void)
 		);
 
 		// Draw the triangles
-		glDrawArrays(GL_TRIANGLES, 0, 9); // 9 vertices (3 triangles)
-
+		glDrawArrays(GL_LINES, 0, 14);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDisableVertexAttribArray(0);
 
 		// Swap buffers
