@@ -1,22 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-
 #include <GL/glew.h>
-
 #include <GLFW/glfw3.h>
-GLFWwindow *window;
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-using namespace glm;
-
 #include <common/shader.hpp>
 #include <common/objloader.hpp>
 #include <common/texture.hpp>
 
+using namespace glm;
+
 int main(void)
 {
+	GLFWwindow *window;
+
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -63,8 +61,7 @@ int main(void)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("playground_steps/step1/SimpleVertexShader.vertexshader",
-								   "playground_steps/step1/SimpleFragmentShader.fragmentshader");
+	GLuint programID = LoadShaders("playground_steps/step1/SimpleVertexShader.vertexshader", "playground_steps/step1/SimpleFragmentShader.fragmentshader");
 
 	static const GLfloat g_vertex_buffer_data[] = {
 		-1.0f,
@@ -85,8 +82,7 @@ int main(void)
 
 		glGenBuffers(1, &vertexbuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data),
-					 g_vertex_buffer_data, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 		// Use our shader
 		glUseProgram(programID);
@@ -109,9 +105,7 @@ int main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-	} // Check if the ESC key was pressed or the window was closed
-	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		   glfwWindowShouldClose(window) == 0);
+	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
 
 	// Close OpenGL window and terminate GLFW
 	// Cleanup VBO
