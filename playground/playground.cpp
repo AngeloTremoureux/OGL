@@ -59,7 +59,7 @@ int main(void)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("playground_steps/step4/SimpleVertexShader.vertexshader", "playground_steps/step4/SimpleFragmentShader.fragmentshader");
+	GLuint programID = LoadShaders("playground_steps/step5/SimpleVertexShader.vertexshader", "playground_steps/step5/SimpleFragmentShader.fragmentshader");
 
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
