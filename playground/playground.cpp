@@ -118,29 +118,13 @@ int main(void)
 
 	// Colors for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
 
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-
-		1.0, 0.0f, 0.0f,
-		1.0, 0.0f, 0.0f,
-		1.0, 0.0f, 0.0f,
-
-		1.0, 0.0f, 0.0f,
-		1.0, 0.0f, 0.0f,
-		1.0, 0.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
 
 		0.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 1.0f,
@@ -150,21 +134,37 @@ int main(void)
 		0.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 1.0f,
 
-		1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
 
-		1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
 
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
 
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f};
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f};
 	GLuint colorbuffer;
 	glGenBuffers(1, &colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
@@ -234,23 +234,7 @@ int main(void)
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	glm::mat4 Model = glm::mat4(1.0f);
-	// Matrice de translation
-	glm::mat4 Translate = glm::mat4(1.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 1.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 1.0f, -3.0f,
-									0.0f, 0.0f, 0.0f, 1.0f);
-	// Matrice d'Homotetie
-	glm::mat4 Scale = glm::mat4(1.20f, 0.0f, 0.0f, 0.0f,
-								0.0f, 0.5f, 0.0f, 0.0f,
-								0.0f, 0.0f, 1.0f, 0.0f,
-								0.0f, 0.0f, 0.0f, 1.0f);
-	// Matrice de Rotation
-	glm::mat4 Rotate = glm::mat4(0.0f, 0.0f, 1.0f, 0.0f,
-								 0.0f, 1.0f, 0.f, 0.0f,
-								 1.0f, 0.0f, 1.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 1.0f);
-	Model = Rotate * Scale * Translate * Model;
-	glm::mat4 MVP = Projection * View * Model;
+	glm::mat4 MVP;
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
