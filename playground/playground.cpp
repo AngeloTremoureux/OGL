@@ -59,8 +59,19 @@ int main(void)
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	GLuint programID = LoadShaders("playground_steps/step6/SimpleVertexShader.vertexshader", "playground_steps/step6/SimpleFragmentShader.fragmentshader");
+	GLuint programID = LoadShaders("playground_steps/step7/StandardShading.vertexshader", "playground_steps/step7/StandardShading.fragmentshader");
 
+	// Vertex
+	static const GLfloat g_normal_buffer_data[] = {
+		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f,
+		0.0f, 0.0f, 1.f};
 	// Vertex data for three triangles
 	static const GLfloat g_vertex_buffer_data[] = {
 		// Triangle 1
@@ -74,7 +85,11 @@ int main(void)
 		// Triangle 3
 		-1.0f, 1.0f, 0.0f, // point 1
 		0.0f, 1.5f, 0.0f,  // point 2
-		1.0f, 1.0f, 0.0f}; // point 3
+		1.0f, 1.0f, 0.0f,  // point 3
+		// Triangle 4
+		-1.0f, -1.0f, 0.2f, // point 1
+		0.0f, 1.0f, 0.2f,	// point 2
+		1.0f, -1.0f, 0.2f}; // point 3
 
 	// One color for each vertex.
 	static const GLfloat g_color_buffer_data[] = {
@@ -95,6 +110,16 @@ int main(void)
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f};
 
+	GLuint normalbuffer;
+	// Get a handle for our "LightPosition" uniform
+	glUseProgram(programID);
+	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
+	glGenBuffers(1, &normalbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_normal_buffer_data),
+				 g_normal_buffer_data, GL_STATIC_DRAW);
+
 	GLuint vertexbuffer;
 	GLuint colorbuffer;
 	glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
@@ -109,6 +134,10 @@ int main(void)
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 	float angle = 0.0f;
+
+	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+	GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
+	GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
 	do
 	{
 		float currentFrame = glfwGetTime();
@@ -120,11 +149,6 @@ int main(void)
 		Model1 = {c, 0.0f, s, 0.0f,
 				  0.0f, 1.0f, 0.0f, 0.0f,
 				  -s, 0.0f, c, 0.0f,
-				  0.0f, 0.0f, 0.0f, 1.0f};
-
-		Model2 = {c, 0.0f, -s, 0.0f,
-				  0.0f, 1.0f, 0.0f, 0.0f,
-				  s, 0.0f, c, 0.0f,
 				  0.0f, 0.0f, 0.0f, 1.0f};
 		// Model = glm::translate(Model, glm::vec3(0.0f, 0.001f, 0.0f));
 		// Model = glm::scale(Model, glm::vec3(1.001f, 1.001f, 1.0f));
@@ -140,7 +164,21 @@ int main(void)
 		glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
 
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
+		glVertexAttribPointer(
+			2,		  // attribute 2.
+			3,		  // size
+			GL_FLOAT, // type
+			GL_FALSE, // normalized?
+			0,		  // stride
+			(void *)0 // array buffer offset
+		);
+
 		glUseProgram(programID);
+		GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+		glm::vec3 lightPos = glm::vec3(4, 4, 1);
+		glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
 		// Vertices
 		glEnableVertexAttribArray(0);
@@ -175,9 +213,9 @@ int main(void)
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 		glDrawArrays(GL_TRIANGLES, 0, 12);
 
-		MVP = Projection * View * Model2;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, 12);
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model1[0][0]);
+		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
