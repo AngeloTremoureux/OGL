@@ -108,7 +108,8 @@ int main(void)
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)	// Head is up (set to 0,-1,0 to look upside-down)
 	);
-	glm::mat4 Model = glm::mat4(1.0f);
+	glm::mat4 Model1 = glm::mat4(1.0f);
+	glm::mat4 Model2 = glm::mat4(1.0f);
 	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 	float angle = 0.0f;
@@ -120,10 +121,14 @@ int main(void)
 		angle += 3.14159f / 2.0f * deltaTime;
 		float c = (float)cos(angle);
 		float s = (float)sin(angle);
-		Model = {c, 0.0f, s, 0.0f,
-				 0.0f, 1.0f, 0.0f, 0.0f,
-				 -s, 0.0f, c, 0.0f,
-				 0.0f, 0.0f, 0.0f, 1.0f};
+		Model1 = {c, 0.0f, s, 0.0f,
+				  0.0f, 1.0f, 0.0f, 0.0f,
+				  -s, 0.0f, c, 0.0f,
+				  0.0f, 0.0f, 0.0f, 1.0f};
+		Model2 = {c, 0.0f, -s, 0.0f,
+				  0.0f, 1.0f, 0.0f, 0.0f,
+				  -s, 0.0f, c, 0.0f,
+				  0.0f, 0.0f, 0.0f, 1.0f};
 		// Model = glm::translate(Model, glm::vec3(0.0f, 0.001f, 0.0f));
 		// Model = glm::scale(Model, glm::vec3(1.001f, 1.001f, 1.0f));
 		// Model = glm::rotate(Model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -167,8 +172,13 @@ int main(void)
 
 		GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-		glm::mat4 MVP = Projection * View * Model;
+		glm::mat4 MVP;
+
+		MVP = Projection * View * Model1;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		MVP = Projection * View * Model2;
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
