@@ -109,14 +109,27 @@ int main(void)
 		glm::vec3(0, 1, 0)	// Head is up (set to 0,-1,0 to look upside-down)
 	);
 	glm::mat4 Model = glm::mat4(1.0f);
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
+	float angle = 0.0f;
 	do
 	{
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+		angle += 3.14159f / 2.0f * deltaTime;
+		float c = (float)cos(angle);
+		float s = (float)sin(angle);
+		Model = {c, 0.0f, s, 0.0f,
+				 0.0f, 1.0f, 0.0f, 0.0f,
+				 -s, 0.0f, c, 0.0f,
+				 0.0f, 0.0f, 0.0f, 1.0f};
+		// Model = glm::translate(Model, glm::vec3(0.0f, 0.001f, 0.0f));
+		// Model = glm::scale(Model, glm::vec3(1.001f, 1.001f, 1.0f));
+		// Model = glm::rotate(Model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		Model = glm::translate(Model, glm::vec3(0.0f, 0.001f, 0.0f));
-		Model = glm::scale(Model, glm::vec3(1.001f, 1.001f, 1.0f));
-		Model = glm::rotate(Model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
 		glGenBuffers(1, &vertexbuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
